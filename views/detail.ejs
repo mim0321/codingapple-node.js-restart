@@ -6,22 +6,21 @@
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap-grid.css' integrity='sha512-hhSu9overYjKfSjPCtJW3688VHkfBh+W1pR5Mysll91bOJwGjYntytGTtVXb2aisFOaYXXDrO38NKXDRPJWu7A==' crossorigin='anonymous'/>
     <link rel="stylesheet" href="/normalize.css">
     <link rel="stylesheet" href="/main.css">
-    <title>Mim Forum</title>
+    <title>Mim Forum detail</title>
 </head>
 <body>
     <%- include('nav.ejs') %>
 
     <div class="post-container container">
         <div class="row">
-            <% for(let i = 0; i < result.length; i++){ %>
             <div class="post__box col-12 default-mt flex">
                 <div class="post__left">
-                    <!-- 작성자, 글제목, 글내용 -->
                     <div class="post__writer">Guest</div>
                     <div class="post__title">
-                        <a href="/list/detail/<%= result[i]._id %>" method="get">
-                            <%= result[i].title %>
-                        </a>
+                        <%= result.title %>
+                    </div>
+                    <div class="post__content">
+                        <%= result.content %>
                     </div>
                 </div>
                 <div class="post__right flex">
@@ -33,7 +32,6 @@
                     </div>
                 </div>
             </div>
-            <% } %>
         </div>
     </div>
 
