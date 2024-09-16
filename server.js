@@ -17,5 +17,10 @@ connectDB.then((client)=>{
 })
 
 app.get('/', (req, res) => {
-    res.render('index.ejs')
+    try {
+        res.render('index.ejs')
+    } catch(err){
+        console.log(err);
+        res.status(500).send('Server Error')
+    }
 })

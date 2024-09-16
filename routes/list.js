@@ -9,8 +9,14 @@ connectDB.then((client)=>{
   console.log(err)
 })
 
-router.get('/list', (req, res) => {
-    res.send('route 성공함')
+router.get('/list', async (req, res) => {
+  try {
+    const result = await db.collection('post').find().toArray();
+    res.render('list.ejs', {result : result})
+  } catch(err){
+      console.log(err);
+      res.status(500).send('Server Error')
+  }
 })
 
 module.exports = router

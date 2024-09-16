@@ -6,11 +6,15 @@
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap-grid.css' integrity='sha512-hhSu9overYjKfSjPCtJW3688VHkfBh+W1pR5Mysll91bOJwGjYntytGTtVXb2aisFOaYXXDrO38NKXDRPJWu7A==' crossorigin='anonymous'/>
     <link rel="stylesheet" href="/normalize.css">
     <link rel="stylesheet" href="/main.css">
-    <title>게시판 메인</title>
+    <title>Mim Home</title>
 </head>
 <body>
     <%- include('nav.ejs') %>
 
-    
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js' integrity='sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==' crossorigin='anonymous'></script>
+    <script>
+        $('.nav__menu-list').removeClass('active');
+        $('.nav__menu-list:nth-child(1)').addClass('active');
+    </script>
 </body>
 </html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap-grid.css' integrity='sha512-hhSu9overYjKfSjPCtJW3688VHkfBh+W1pR5Mysll91bOJwGjYntytGTtVXb2aisFOaYXXDrO38NKXDRPJWu7A==' crossorigin='anonymous'/>
+    <link rel="stylesheet" href="/normalize.css">
+    <link rel="stylesheet" href="/main.css">
+    <title>Mim Forum</title>
+</head>
+<body>
+    <%- include('nav.ejs') %>
+
+    <div class="post-container container">
+        <div class="row">
+            <% for(let i = 0; i < result.length; i++){ %>
+            <div class="post__box col-12 default-mt flex">
+                <div class="post__left">
+                    <!-- 작성자, 글제목, 글내용 -->
+                    <div class="post__writer">Guest</div>
+                    <div class="post__title">
+                        <a href="#">
+                            <%= result[i].title %>
+                        </a>
+                    </div>
+                </div>
+                <div class="post__right flex">
+                    <div class="post__ico-box flex">
+                        <i class="fa-solid fa-pencil"></i>
+                    </div>
+                    <div class="post__ico-box flex">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    </div>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js' integrity='sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==' crossorigin='anonymous'></script>
+    <script>
+        $('.nav__menu-list').removeClass('active');
+        $('.nav__menu-list:nth-child(2)').addClass('active');
+    </script>
+</body>
+</html>
