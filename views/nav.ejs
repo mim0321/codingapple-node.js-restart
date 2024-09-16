@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css' integrity='sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==' crossorigin='anonymous'/>
+    <link rel="stylesheet" href="/normalize.css">
+    <link rel="stylesheet" href="/main.css">
+    <title></title>
+</head>
+<body>
+    <header class="header-container">
+        <a href="#">Mim Forum</a>
+    </header>
+
+    <nav class="navbar-container">
+        <ul>
+            <li class="nav__menu-list active">
+                <a href="#">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li class="nav__menu-list">
+                <a href="#">
+                    <i class="fa-solid fa-list-ul"></i>
+                    <span>Forum</span>
+                </a>
+            </li>
+            <li class="nav__menu-list">
+                <a href="#">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <span>Post</span>
+                </a>
+            </li>
+            <li class="nav__menu-list">
+                <a href="#">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js' integrity='sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==' crossorigin='anonymous'></script>
+    <script>
+        $('.nav__menu-list').click(function(){
+            $(this).siblings('li').removeClass('active');
+            $(this).addClass('active');
+        })
+
+        $('.header-container').click(function(){
+            $('.nav__menu-list').removeClass('active');
+            $('.nav__menu-list:first-child').addClass('active');
+        })
+    </script>
+</body>
+</html>
