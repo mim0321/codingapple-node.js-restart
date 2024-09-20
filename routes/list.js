@@ -30,4 +30,22 @@ router.get('/list/detail/:id', async (req, res) => {
   }
 })
 
+router.get('/list/write', async (req, res) => {
+  try {
+    res.render('post-write.ejs')
+  } catch(err){
+    console.log(err);
+    res.status(500).send('Server Error')
+  }
+})
+
+router.post('/list/write', async (req, res) => {
+  try {
+
+  } catch(err){
+    console.log(err);
+    res.status(500).send('Server Error')
+  }
+})
+
 module.exports = router
