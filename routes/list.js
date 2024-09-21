@@ -1,7 +1,11 @@
-const router = require('express').Router()
-const { ObjectId } = require('mongodb')
+const express = require('express');
+const router = require('express').Router();
+const { ObjectId } = require('mongodb');
 
-let connectDB = require('./../database.js')
+router.use(express.json());
+router.use(express.urlencoded({extended: true}));
+
+let connectDB = require('./../database.js');
 
 let db
 connectDB.then((client)=>{
@@ -41,7 +45,8 @@ router.get('/list/write', async (req, res) => {
 
 router.post('/list/write', async (req, res) => {
   try {
-
+    db.collection('post').insertOne({title : req.body.title, content: req.body.content})
+    res.redirect('/list')
   } catch(err){
     console.log(err);
     res.status(500).send('Server Error')

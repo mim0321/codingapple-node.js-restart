@@ -6,7 +6,7 @@
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap-grid.css' integrity='sha512-hhSu9overYjKfSjPCtJW3688VHkfBh+W1pR5Mysll91bOJwGjYntytGTtVXb2aisFOaYXXDrO38NKXDRPJWu7A==' crossorigin='anonymous'/>
     <link rel="stylesheet" href="/normalize.css">
     <link rel="stylesheet" href="/main.css">
-    <title>Mim Forum</title>
+    <title>Post write</title>
 </head>
 <body>
     <%- include('nav.ejs') %>
@@ -15,8 +15,8 @@
         <div class="row">
             <div class="write-box default-mt">
                     <form action="/list/write" method="post" class="write-form">
-                        <input type="text" name="title" placeholder="제목을 입력하시오">
-                        <input type="text" name="content" placeholder="내용을 입력하시오">
+                        <input name="title" placeholder="제목을 입력하시오">
+                        <input name="content" placeholder="내용을 입력하시오">
                         <button type="submit">Post it!</button>
                     </form>
             </div>
