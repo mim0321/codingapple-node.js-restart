@@ -45,8 +45,12 @@ router.get('/list/write', async (req, res) => {
 
 router.post('/list/write', async (req, res) => {
   try {
-    db.collection('post').insertOne({title : req.body.title, content: req.body.content})
-    res.redirect('/list')
+    if (req.body.title == '' || req.body.content == ''){
+      res.send('제목 또는 내용을 작성해주세요')
+    } else {
+      await db.collection('post').insertOne({title : req.body.title, content: req.body.content})
+      res.redirect('/list')
+    }
   } catch(err){
     console.log(err);
     res.status(500).send('Server Error')
