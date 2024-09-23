@@ -14,7 +14,7 @@
     <div class="write-container container">
         <div class="row">
             <div class="write-box default-mt">
-                    <form action="/list/edit/<%= result._id %>" method="post" class="write-form">
+                    <form action="/list/edit/<%= result._id %>?_method=PUT" method="post" class="write-form">
                         <input name="title" value="<%= result.title %>">
                         <input name="content" value="<%= result.content %>">
                         <button type="submit">Edit</button>

@@ -1,10 +1,14 @@
-const express = require('express');
-const app = express();
+const express = require('express')
+const app = express()
+const methodOverride = require('method-override')
+
 require('dotenv').config()
 
+app.use(methodOverride('_method'))
 app.use(express.static(__dirname + '/public'))
 app.use('/', require('./routes/list.js'))
 app.set("view engine", "ejs")
+
 
 let connectDB = require('./database.js')
 

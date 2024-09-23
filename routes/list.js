@@ -1,11 +1,13 @@
-const express = require('express');
-const router = require('express').Router();
-const { ObjectId } = require('mongodb');
+const express = require('express')
+const router = require('express').Router()
+const { ObjectId } = require('mongodb')
+const methodOverride = require('method-override')
 
-router.use(express.json());
-router.use(express.urlencoded({extended: true}));
+router.use(methodOverride('_method'))
+router.use(express.json())
+router.use(express.urlencoded({extended: true}))
 
-let connectDB = require('./../database.js');
+let connectDB = require('./../database.js')
 
 let db
 connectDB.then((client)=>{
@@ -67,7 +69,9 @@ router.get('/list/edit/:id', async (req,res) => {
   }
 })
 
-router.post('/list/edit/:id', async (req, res) => {
+router.put('/list/edit/:id', async (req, res) => {
+  // method-override npm설치 후 API put으로 변경하기!
+  // form태그의 url 맨 뒤에 ?_method=put 으로 변경해야함(API 확실히 구분 하려고 씀)
   try {
     if (req.body.title == '' || req.body.content == ''){
       res.send('제목 또는 내용을 작성해주세요')
