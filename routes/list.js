@@ -57,4 +57,31 @@ router.post('/list/write', async (req, res) => {
   }
 })
 
+router.get('/list/edit/:id', async (req,res) => {
+  try {
+    const result = await db.collection('post').findOne({ _id : new ObjectId(req.params.id) })
+    res.render('edit.ejs', { result : result })
+  } catch(err){
+    console.log(err);
+    res.status(500).send('Server Error')
+  }
+})
+
+router.post('/list/edit/:id', async (req, res) => {
+  try {
+    if (req.body.title == '' || req.body.content == ''){
+      res.send('제목 또는 내용을 작성해주세요')
+    } else {
+      await db.collection('post').updateOne({ _id : new ObjectId(req.params.id) }, {$set : {
+        title : req.body.title,
+        content : req.body.content,
+      }})
+      res.redirect('/list')
+    }
+  } catch(err){
+    console.log(err);
+    res.status(500).send('Server Error')
+  }
+})
+
 module.exports = router
