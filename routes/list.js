@@ -1,8 +1,10 @@
 const express = require('express')
 const router = require('express').Router()
+const cors = require('cors');
 const { ObjectId } = require('mongodb')
 const methodOverride = require('method-override')
 
+router.use(cors());
 router.use(methodOverride('_method'))
 router.use(express.json())
 router.use(express.urlencoded({extended: true}))
@@ -82,6 +84,17 @@ router.put('/list/edit/:id', async (req, res) => {
       }})
       res.redirect('/list')
     }
+  } catch(err){
+    console.log(err);
+    res.status(500).send('Server Error')
+  }
+})
+
+router.delete('/post_delete', async (req, res)=>{
+  try {
+    console.log('data: ' + req.query.id)
+    await db.collection('post').deleteOne({ _id : new ObjectId(req.query.id) })
+    res.status(200).send('Delete complete');
   } catch(err){
     console.log(err);
     res.status(500).send('Server Error')

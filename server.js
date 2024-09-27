@@ -1,9 +1,11 @@
 const express = require('express')
+const cors = require('cors')
 const app = express()
 const methodOverride = require('method-override')
 
 require('dotenv').config()
 
+app.use(cors());
 app.use(methodOverride('_method'))
 app.use(express.static(__dirname + '/public'))
 app.use('/', require('./routes/list.js'))

@@ -29,7 +29,7 @@
                             <i class="fa-solid fa-pencil"></i>
                         </a>
                     </div>
-                    <div class="post__ico-box flex">
+                    <div class="post__ico-box flex delete-btn" data-id="<%= result[i]._id %>">
                         <i class="fa-solid fa-trash-can"></i>
                     </div>
                 </div>
@@ -42,6 +42,24 @@
     <script>
         $('.nav__menu-list').removeClass('active');
         $('.nav__menu-list:nth-child(2)').addClass('active');
+    </script>
+
+    <script>
+        $('.delete-btn > i').css('pointerEvents', 'none');
+            for (let i = 0; i < '<%= result.length %>'; i++) {
+            // AJAX로 삭제버튼 기능 만들기
+                document.querySelectorAll('.delete-btn')[i].addEventListener('click', (e)=>{
+                    // fetch('/url~~~', {기능 작성}) << url주소로 get요청 날려줌
+                    // query string == /url?데이터이름=데이터값&데이터이름2=데이터값2
+                    fetch('/post_delete?id=' + e.target.dataset.id, {
+                        method : 'delete',
+                    })
+                    .then((r)=>r.text())
+                    .then((r)=>{
+                        e.target.parentElement.parentElement.style.display = 'none'
+                    })
+                })
+            }
     </script>
 </body>
 </html>
