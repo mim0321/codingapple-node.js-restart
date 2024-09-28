@@ -38,6 +38,14 @@
         </div>
     </div>
 
+    <div class="pagenation-container container">
+        <div class="row">
+            <div class="col-12 pagenation-box">
+                <!-- 페이지네이션 -->
+            </div>
+        </div>
+    </div>
+
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js' integrity='sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==' crossorigin='anonymous'></script>
     <script>
         $('.nav__menu-list').removeClass('active');
@@ -46,20 +54,29 @@
 
     <script>
         $('.delete-btn > i').css('pointerEvents', 'none');
-            for (let i = 0; i < '<%= result.length %>'; i++) {
-            // AJAX로 삭제버튼 기능 만들기
-                document.querySelectorAll('.delete-btn')[i].addEventListener('click', (e)=>{
-                    // fetch('/url~~~', {기능 작성}) << url주소로 get요청 날려줌
-                    // query string == /url?데이터이름=데이터값&데이터이름2=데이터값2
-                    fetch('/post_delete?id=' + e.target.dataset.id, {
-                        method : 'delete',
-                    })
-                    .then((r)=>r.text())
-                    .then((r)=>{
-                        e.target.parentElement.parentElement.style.display = 'none'
-                    })
+        for (let i = 0; i < '<%= result.length %>'; i++) {
+        // AJAX로 삭제버튼 기능 만들기
+            document.querySelectorAll('.delete-btn')[i].addEventListener('click', (e)=>{
+                // fetch('/url~~~', {기능 작성}) << url주소로 get요청 날려줌
+                // query string == /url?데이터이름=데이터값&데이터이름2=데이터값2
+                fetch('/post_delete?id=' + e.target.dataset.id, {
+                    method : 'delete',
                 })
-            }
+                .then((r)=>r.text())
+                .then((r)=>{
+                    e.target.parentElement.parentElement.style.display = 'none'
+                })
+            })
+        }
+
+        // pagenation 버튼 만들기 및 링크 넣기
+        const pageNum = Math.ceil('<%= pageNum.length %>' / 5);
+        let pageNumCnt = 0;
+        for (let i = 0; i < pageNum; i++) {
+            pageNumCnt++;
+            let pageNumElement = `<a class="pagenation__btn" href="/list/page/${pageNumCnt}">${pageNumCnt}</a>`
+            $('.pagenation-box').append(pageNumElement)
+        }
     </script>
 </body>
 </html>

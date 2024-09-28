@@ -18,10 +18,12 @@ connectDB.then((client)=>{
   console.log(err)
 })
 
-router.get('/list', async (req, res) => {
+router.get('/list/page/:page', async (req, res) => {
   try {
-    const result = await db.collection('post').find().toArray();
-    res.render('list.ejs', {result : result})
+    const page = (req.params.page - 1) * 5;
+    const pageNum = await db.collection('post').find().toArray();
+    const result = await db.collection('post').find().skip(page).limit(5).toArray();
+    res.render('list.ejs', {result : result, pageNum : pageNum})
   } catch(err){
       console.log(err);
       res.status(500).send('Server Error')
@@ -40,6 +42,7 @@ router.get('/list/detail/:id', async (req, res) => {
 
 router.get('/list/write', async (req, res) => {
   try {
+    console.log('test')
     res.render('post-write.ejs')
   } catch(err){
     console.log(err);
@@ -53,7 +56,7 @@ router.post('/list/write', async (req, res) => {
       res.send('제목 또는 내용을 작성해주세요')
     } else {
       await db.collection('post').insertOne({title : req.body.title, content: req.body.content})
-      res.redirect('/list')
+      res.redirect('/list/page/1')
     }
   } catch(err){
     console.log(err);
@@ -82,7 +85,7 @@ router.put('/list/edit/:id', async (req, res) => {
         title : req.body.title,
         content : req.body.content,
       }})
-      res.redirect('/list')
+      res.redirect('/list/page/1')
     }
   } catch(err){
     console.log(err);
