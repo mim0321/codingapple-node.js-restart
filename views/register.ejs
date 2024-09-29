@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap-grid.css' integrity='sha512-hhSu9overYjKfSjPCtJW3688VHkfBh+W1pR5Mysll91bOJwGjYntytGTtVXb2aisFOaYXXDrO38NKXDRPJWu7A==' crossorigin='anonymous'/>
+    <link rel="stylesheet" href="/normalize.css">
+    <link rel="stylesheet" href="/main.css">
+    <title>New Register</title>
+</head>
+<body>
+    <%- include('nav.ejs') %>
+
+    <div class="write-container container">
+        <div class="row">
+            <div class="write-box default-mt">
+                    <form action="/list/write" method="post" class="write-form">
+                        <label for="username">ID : </label>
+                        <input name="username" placeholder="아이디를 입력하시오" required>
+                        <label for="password">Password : </label>
+                        <input name="password" type="password" placeholder="암호를 입력하시오" required>
+                        <button type="submit">Join us!</button>
+                    </form>
+            </div>
+        </div>
+    </div>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js' integrity='sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==' crossorigin='anonymous'></script>
+    <script>
+        $('.nav__menu-list').removeClass('active');
+        $('.nav__menu-list:nth-child(4)').addClass('active');
+    </script>
+</body>
+</html>

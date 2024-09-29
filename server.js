@@ -9,6 +9,7 @@ app.use(cors());
 app.use(methodOverride('_method'))
 app.use(express.static(__dirname + '/public'))
 app.use('/', require('./routes/list.js'))
+app.use('/', require('./routes/user.js'))
 app.set("view engine", "ejs")
 
 
