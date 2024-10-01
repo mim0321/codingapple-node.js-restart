@@ -42,7 +42,6 @@ router.get('/list/detail/:id', async (req, res) => {
 
 router.get('/list/write', async (req, res) => {
   try {
-    console.log('test')
     res.render('post-write.ejs')
   } catch(err){
     console.log(err);

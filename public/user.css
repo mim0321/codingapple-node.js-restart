@@ -1,0 +1,33 @@
+.register-container {
+    margin-top: 20px;
+    padding: 12px 16px;
+    background-color: #fcfcfc;
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.register__title,
+#register__form input,
+#register__form label {
+    display: block;
+    margin: 0 100px;
+    width: 60%;
+}
+
+.register__title {
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+#register__form input {
+    margin-bottom: 12px;
+    padding: 6px;
+}
+
+#register__form button {
+    margin-left: 100px;
+    margin-top: 12px;
+    margin-bottom: 20px;
+    padding: 6px 10px;
+    font-size: 16px;
+}

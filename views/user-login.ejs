@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/normalize.css">
     <link rel="stylesheet" href="/main.css">
     <link rel="stylesheet" href="/user.css">
-    <title>New Register</title>
+    <title>User Login</title>
 </head>
 <body>
     <%- include('nav.ejs') %>
@@ -15,13 +15,14 @@
     <div class="register-container container">
         <div class="row">
             <div class="register-box default-mt">
-                <h3 class="register__title">회원가입</h3>
-                <form action="/user/register" method="post" id="register__form">
+                <h3 class="register__title">로그인</h3>
+                <form action="/user/profile" method="post" id="register__form">
                     <label for="username">ID : </label>
                     <input name="username" placeholder="아이디를 입력하시오" required>
                     <label for="password">Password : </label>
                     <input name="password" type="password" placeholder="암호를 입력하시오" required>
-                    <button type="submit">Join us!</button>
+                    <button type="submit">Login</button>
+                    <button id="register-btn">Register!</button>
                 </form>
             </div>
         </div>
@@ -31,6 +32,10 @@
     <script>
         $('.nav__menu-list').removeClass('active');
         $('.nav__menu-list:nth-child(4)').addClass('active');
+
+        $('#register-btn').click(()=>{
+            location.href = '/user/register'
+        })
     </script>
 </body>
 </html>
