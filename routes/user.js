@@ -58,15 +58,14 @@ connectDB.then((client)=>{
 
 // API List
 
-router.get('/user/profile', async (req, res)=>{
+router.get('/user/login', async (req, res)=>{
     try {
-        console.log('req.user :', req.user)
         if(!req.user){
             console.log('Not login')
             res.render('user-login.ejs')
         } else{
             console.log('Status Signin')
-            res.render('user-profile')
+            res.render('user-profile.ejs', {result : req.user})
         }
     } catch(err){
         console.log(err)
@@ -74,14 +73,14 @@ router.get('/user/profile', async (req, res)=>{
     }
 })
 
-router.post('/user/profile', async (req, res, next)=>{
+router.post('/user/login', async (req, res, next)=>{
     try {
         passport.authenticate('local', (error, user, info)=>{
             // 아이디 비번 비교하는 작업 진행하는 부분
             if(error) return res.status(500).json(error)
             if(!user) return res.status(401).json(info.message)
             req.logIn(user, (err)=>{
-                if(err) return next(err)
+                if(err) return next(err);
                 res.redirect('/')
             })
         })(req, res, next)
@@ -104,8 +103,19 @@ router.post('/user/register', async (req, res)=>{
     try {
         // 만약 중복된 아이디가 있으면 안되고, 없으면 가입되도록 만들 예정
         await db.collection('user').insertOne({username: req.body.username, password: req.body.password})
-        console.log(req.body)
         res.redirect('/user/login')
+    } catch(err){
+        console.log(err)
+        res.status(500).send('Server error')
+    }
+})
+
+router.get('/user/logout', async (req, res)=>{
+    try {
+        req.logout((err)=>{
+            if(err) throw err;
+            res.redirect('/');
+        })
     } catch(err){
         console.log(err)
         res.status(500).send('Server error')
