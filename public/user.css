@@ -26,7 +26,8 @@
     padding: 6px;
 }
 
-#register__form button {
+#register__form button,
+#register-btn {
     margin-left: 100px;
     margin-top: 12px;
     margin-bottom: 20px;

@@ -5,6 +5,8 @@ const methodOverride = require('method-override')
 const session = require('express-session')
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
+const bcrypt = require('bcrypt')
+const MongoStore = require('connect-mongo')
 
 router.use(methodOverride('_method'))
 router.use(express.json())
@@ -14,7 +16,13 @@ router.use(session({
   secret: process.env.PASSPORT_Secret,
   resave : true,
   saveUninitialized : false,
-  cookie : { maxAge : 60 * 6 * 60 * 1000 }
+  cookie : { maxAge : 60 * 6 * 60 * 1000 },
+  store : MongoStore.create({
+    mongoUrl : process.env.DB_URL,
+    dbName : 'forum',
+    ttl : 60 * 6 * 60 * 1000,
+    autoRemove: 'native',
+  })
 }))
 router.use(passport.session())
 passport.use(new LocalStrategy(async (username, password, cb) => {
@@ -23,7 +31,9 @@ passport.use(new LocalStrategy(async (username, password, cb) => {
         if (!result) {
           return cb(null, false, { message: '아이디가 일치하지 않습니다.' })
         }
-        if (result.password == password) {
+
+        const hashingPassword = await bcrypt.compare(password, result.password)
+        if (hashingPassword){
           return cb(null, result)
         } else {
           return cb(null, false, { message: '암호가 일치하지 않습니다.' });
@@ -101,8 +111,8 @@ router.get('/user/register', async (req, res)=>{
 
 router.post('/user/register', async (req, res)=>{
     try {
-        // 만약 중복된 아이디가 있으면 안되고, 없으면 가입되도록 만들 예정
-        await db.collection('user').insertOne({username: req.body.username, password: req.body.password})
+        const hashing = await bcrypt.hash(req.body.password, 10)
+        await db.collection('user').insertOne({username: req.body.username, password: hashing})
         res.redirect('/user/login')
     } catch(err){
         console.log(err)
@@ -110,11 +120,16 @@ router.post('/user/register', async (req, res)=>{
     }
 })
 
-router.get('/user/logout', async (req, res)=>{
+router.get('/user/logout', async (req, res, next)=>{
     try {
         req.logout((err)=>{
-            if(err) throw err;
-            res.redirect('/');
+            if(err) return next(err);
+
+            req.session.destroy((err)=>{
+                if(err) return next(err);
+                
+                res.redirect('/');
+            })
         })
     } catch(err){
         console.log(err)
