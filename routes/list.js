@@ -93,7 +93,7 @@ router.get('/list/detail/:id', async (req, res) => {
 router.get('/list/write', async (req, res) => {
   try {
     if(req.user){
-      res.render('post-write.ejs')
+      res.render('post-write.ejs', {result : req.user.username})
     } else {
       res.send('로그인 시 이용할 수 있는 기능입니다.')
     }
@@ -108,7 +108,7 @@ router.post('/list/write', async (req, res) => {
     if (req.body.title == '' || req.body.content == ''){
       res.send('제목 또는 내용을 작성해주세요')
     } else {
-      await db.collection('post').insertOne({title : req.body.title, content: req.body.content})
+      await db.collection('post').insertOne({title : req.body.title, content: req.body.content, username: req.query.username})
       res.redirect('/list/page/1')
     }
   } catch(err){

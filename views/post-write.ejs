@@ -14,11 +14,13 @@
     <div class="write-container container">
         <div class="row">
             <div class="write-box default-mt">
-                    <form action="/list/write" method="post" class="write-form">
-                        <input name="title" placeholder="제목을 입력하시오">
-                        <input name="content" placeholder="내용을 입력하시오">
-                        <button type="submit">Post it!</button>
-                    </form>
+                <form action="/list/write?username=<%= result %>" method="post" class="write-form">
+                    <input name="title" placeholder="제목을 입력하시오">
+                    <input name="content" placeholder="내용을 입력하시오">
+                    <span>작성자 : </span>
+                    <span><%= result %></span>
+                    <button type="submit">Post it!</button>
+                </form>
             </div>
         </div>
     </div>
