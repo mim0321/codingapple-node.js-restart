@@ -148,9 +148,27 @@ router.put('/list/edit/:id', async (req, res) => {
 
 router.delete('/post_delete', async (req, res)=>{
   try {
-    console.log('data: ' + req.query.id)
     await db.collection('post').deleteOne({ _id : new ObjectId(req.query.id) })
     res.status(200).send('Delete complete');
+  } catch(err){
+    console.log(err);
+    res.status(500).send('Server Error')
+  }
+})
+
+router.get('/list/page/:page/search', async (req, res)=>{
+  try {
+    let search = [
+      {$search : {
+        index : 'title_index',
+        text : { query : req.query.val, path : 'title' }
+      }}
+    ]
+    const page = (req.params.page - 1) * 5;
+    const pageNum = await db.collection('post').aggregate(search).toArray();
+    const result = await db.collection('post').aggregate(search).skip(page).limit(5).toArray();
+
+    res.render('list-search.ejs', { result : result, pageNum : pageNum, searchVal : req.query.val })
   } catch(err){
     console.log(err);
     res.status(500).send('Server Error')

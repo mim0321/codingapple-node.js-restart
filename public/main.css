@@ -131,6 +131,17 @@ body {
     margin-right: 10px;
 }
 /* Pagenation E */
+
+/* Search S */
+.search-container {
+    margin-top: 30px;
+}
+
+.search__input,
+.search__btn {
+    padding: 6px 10px;
+}
+/* Search E */
 /* List E */
 
 /* Wirte S */

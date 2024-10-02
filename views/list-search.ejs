@@ -78,10 +78,11 @@
 
         // pagenation 버튼 만들기 및 링크 넣기
         const pageNum = Math.ceil('<%= pageNum.length %>' / 5);
+        const searchVal = '<%= searchVal %>';
         let pageNumCnt = 0;
         for (let i = 0; i < pageNum; i++) {
             pageNumCnt++;
-            let pageNumElement = `<a class="pagenation__btn" href="/list/page/${pageNumCnt}">${pageNumCnt}</a>`
+            let pageNumElement = `<a class="pagenation__btn" href="/list/page/${pageNumCnt}/search?val=${searchVal}">${pageNumCnt}</a>`
             $('.pagenation-box').append(pageNumElement)
         }
     </script>
