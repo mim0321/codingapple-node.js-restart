@@ -95,7 +95,7 @@ router.get('/list/write', async (req, res) => {
     if(req.user){
       res.render('post-write.ejs', {result : req.user.username})
     } else {
-      res.send('로그인 시 이용할 수 있는 기능입니다.')
+      res.redirect('/user/login')
     }
   } catch(err){
     console.log(err);
