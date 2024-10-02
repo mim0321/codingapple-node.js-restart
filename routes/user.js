@@ -102,7 +102,8 @@ router.post('/user/login', async (req, res, next)=>{
 
 router.get('/user/register', async (req, res)=>{
     try {
-        res.render('register.ejs')
+        const result = await db.collection('user').find().toArray()
+        res.render('register.ejs', {result : result})
     } catch(err){
         console.log(err)
         res.status(500).send('Server error')
@@ -111,9 +112,18 @@ router.get('/user/register', async (req, res)=>{
 
 router.post('/user/register', async (req, res)=>{
     try {
-        const hashing = await bcrypt.hash(req.body.password, 10)
-        await db.collection('user').insertOne({username: req.body.username, password: hashing})
-        res.redirect('/user/login')
+        const usernameCheck = await db.collection('user').findOne({username : req.body.username})
+        if (usernameCheck){
+            console.log('아이디 중복')
+            res.status(401).send('중복된 아이디가 있습니다.')
+        } else if(req.body.password != req.body.passwordCheck){
+            console.log('패스워드 중복체크 잘못됨')
+            res.status(401).send('패스워드 중복체크에서 문제가 발생했습니다.')
+        } else {
+            const hashing = await bcrypt.hash(req.body.password, 10)
+            await db.collection('user').insertOne({username: req.body.username, password: hashing})
+            res.redirect('/user/login')
+        }
     } catch(err){
         console.log(err)
         res.status(500).send('Server error')
@@ -127,7 +137,7 @@ router.get('/user/logout', async (req, res, next)=>{
 
             req.session.destroy((err)=>{
                 if(err) return next(err);
-                
+
                 res.redirect('/');
             })
         })

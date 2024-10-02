@@ -18,10 +18,13 @@
                 <h3 class="register__title">회원가입</h3>
                 <form action="/user/register" method="post" id="register__form">
                     <label for="username">ID : </label>
-                    <input name="username" placeholder="아이디를 입력하시오" required>
+                    <input name="username" id="usernameInput" placeholder="아이디를 입력하시오" required>
+                    <button type="button" id="usernameCheck">중복체크</button>
                     <label for="password">Password : </label>
-                    <input name="password" type="password" placeholder="암호를 입력하시오" required>
-                    <button type="submit">Join us!</button>
+                    <input name="password" id="passwordInput" type="password" placeholder="암호를 입력하시오" required>
+                    <input name="passwordCheck" id="passwordCheck" type="password" placeholder="암호를 한 번 더 입력하시오" required>
+                    <p class="pw-check">암호가 틀렸습니다.</p>
+                    <button type="submit" id="registerSubmit" disabled="true">Join us!</button>
                 </form>
             </div>
         </div>
@@ -31,6 +34,53 @@
     <script>
         $('.nav__menu-list').removeClass('active');
         $('.nav__menu-list:nth-child(4)').addClass('active');
+
+        //  ID 중복체크 기능
+        let usernameSearch = [];
+        const objResult = '<%- JSON.stringify(result) %>';
+        const newObjResult = JSON.parse(objResult)
+        for (let i = 0; i < newObjResult.length; i++) {
+            usernameSearch.push(newObjResult[i].username)
+        }
+
+        $('#usernameCheck').click(()=>{
+            const username = $('#usernameInput').val();
+
+            if(usernameSearch.includes(username)){
+                alert('아이디가 중복됩니다.')
+                $('#registerSubmit').prop('disabled', true)
+            } else {
+                alert('가입가능한 아이디입니다.')
+                $('#registerSubmit').prop('disabled', false)
+            }
+        })
+
+        // 암호 더블체크 기능
+        $('#passwordCheck').on('input', ()=>{
+            let passwordInput = $('#passwordInput').val();
+            let passwordCheck = $('#passwordCheck').val();
+            
+            if (passwordInput == passwordCheck){
+                $('.pw-check')
+                .css('display', 'block')
+                .css('color', 'blue')
+                .html('작성하신 암호가 일치합니다.');
+                $('#registerSubmit').prop('disabled', false)
+            } else if(passwordCheck == ''){
+                $('.pw-check')
+                .css('display', 'none')
+                .css('color', '')
+                .html('암호가 틀렸습니다.')
+                $('#registerSubmit').prop('disabled', true)
+            } else {
+                $('.pw-check')
+                .css('display', 'block')
+                .css('color', '')
+                .html('암호가 틀렸습니다.')
+                $('#registerSubmit').prop('disabled', true)
+                
+            }
+        })
     </script>
 </body>
 </html>

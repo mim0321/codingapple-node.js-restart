@@ -9,6 +9,7 @@
 }
 
 .register__title,
+.pw-check,
 #register__form input,
 #register__form label {
     display: block;
@@ -33,6 +34,12 @@
     margin-bottom: 20px;
     padding: 6px 10px;
     font-size: 16px;
+}
+
+.pw-check {
+    font-size: 12px;
+    color: red;
+    display: none;
 }
 /* Login, Register E */
 
