@@ -6,21 +6,18 @@
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap-grid.css' integrity='sha512-hhSu9overYjKfSjPCtJW3688VHkfBh+W1pR5Mysll91bOJwGjYntytGTtVXb2aisFOaYXXDrO38NKXDRPJWu7A==' crossorigin='anonymous'/>
     <link rel="stylesheet" href="/normalize.css">
     <link rel="stylesheet" href="/main.css">
-    <title>Post write</title>
+    <link rel="stylesheet" href="/user.css">
+    <title>User Profile</title>
 </head>
 <body>
     <%- include('nav.ejs') %>
 
-    <div class="write-container container">
+    <div class="profile-container container">
         <div class="row">
-            <div class="write-box default-mt">
-                <form action="/list/write?username=<%= result %>" method="post" class="write-form">
-                    <input name="title" placeholder="제목을 입력하시오">
-                    <input name="content" placeholder="내용을 입력하시오">
-                    <span>작성자 : </span>
-                    <span><%= result %></span>
-                    <button type="submit">Post it!</button>
-                </form>
+            <div class="profile__box col-12 default-mt flex">
+                <div class="profile__title">[My Page]</div>
+                <div class="profile__username">Your ID : <%= result.username %></div>
+                <button class="profile__logout">Log Out</button>
             </div>
         </div>
     </div>
@@ -28,7 +25,12 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js' integrity='sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==' crossorigin='anonymous'></script>
     <script>
         $('.nav__menu-list').removeClass('active');
-        $('.nav__menu-list:nth-child(3)').addClass('active');
+        $('.nav__menu-list:nth-child(4)').addClass('active');
+
+        $('.profile__logout').click(()=>{
+            alert('로그아웃 되었습니다.')
+            location.href = '/user/logout'
+        })
     </script>
 </body>
 </html>

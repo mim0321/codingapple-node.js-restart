@@ -1,0 +1,67 @@
+/* Login, Register S */
+
+.register-container {
+    margin-top: 20px;
+    padding: 12px 16px;
+    background-color: #fcfcfc;
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.register__title,
+.pw-check,
+#register__form input,
+#register__form label {
+    display: block;
+    margin: 0 100px;
+    width: 60%;
+}
+
+.register__title {
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+#register__form input {
+    margin-bottom: 12px;
+    padding: 6px;
+}
+
+#register__form button,
+#register-btn {
+    margin-left: 100px;
+    margin-top: 12px;
+    margin-bottom: 20px;
+    padding: 6px 10px;
+    font-size: 16px;
+}
+
+.pw-check {
+    font-size: 12px;
+    color: red;
+    display: none;
+}
+/* Login, Register E */
+
+/* My page S */
+.profile__box {
+    flex-wrap: wrap;
+}
+
+.profile__title {
+    width: 100%;
+    font-size: 30px;
+}
+
+.profile__username {
+    margin-top: 30px;
+    width: 100%;
+    font-size: 24px;
+}
+
+.profile__logout {
+    margin-top: 50px;
+    padding: 6px 10px;
+    font-size: 20px;
+}
+/* My page E */

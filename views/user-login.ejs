@@ -6,21 +6,24 @@
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap-grid.css' integrity='sha512-hhSu9overYjKfSjPCtJW3688VHkfBh+W1pR5Mysll91bOJwGjYntytGTtVXb2aisFOaYXXDrO38NKXDRPJWu7A==' crossorigin='anonymous'/>
     <link rel="stylesheet" href="/normalize.css">
     <link rel="stylesheet" href="/main.css">
-    <title>Post write</title>
+    <link rel="stylesheet" href="/user.css">
+    <title>User Login</title>
 </head>
 <body>
     <%- include('nav.ejs') %>
 
-    <div class="write-container container">
+    <div class="register-container container">
         <div class="row">
-            <div class="write-box default-mt">
-                <form action="/list/write?username=<%= result %>" method="post" class="write-form">
-                    <input name="title" placeholder="제목을 입력하시오">
-                    <input name="content" placeholder="내용을 입력하시오">
-                    <span>작성자 : </span>
-                    <span><%= result %></span>
-                    <button type="submit">Post it!</button>
+            <div class="register-box default-mt">
+                <h3 class="register__title">로그인</h3>
+                <form action="/user/login" method="post" id="register__form">
+                    <label for="username">ID : </label>
+                    <input name="username" placeholder="아이디를 입력하시오" required>
+                    <label for="password">Password : </label>
+                    <input name="password" type="password" placeholder="암호를 입력하시오" required>
+                    <button type="submit">Login</button>
                 </form>
+                <button id="register-btn">Register!</button>
             </div>
         </div>
     </div>
@@ -28,7 +31,11 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js' integrity='sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==' crossorigin='anonymous'></script>
     <script>
         $('.nav__menu-list').removeClass('active');
-        $('.nav__menu-list:nth-child(3)').addClass('active');
+        $('.nav__menu-list:nth-child(4)').addClass('active');
+
+        $('#register-btn').click(()=>{
+            location.href = '/user/register'
+        })
     </script>
 </body>
 </html>
