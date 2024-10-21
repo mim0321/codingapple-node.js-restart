@@ -174,4 +174,42 @@ body {
 }
 /* Wirte E */
 
+/* Detail S */
+.comment-container,
+.comment-list-container {
+    margin-top: 30px;
+    padding: 16px;
+    border-radius: 5px;
+    border: 1px solid #e4e4e4;
+    background-color: #fafafa;
+}
+
+#comment__textarea {
+    margin-top: 10px;
+    width: 100%;
+    height: 80px;
+    resize: none;
+}
+
+#comment__submit{
+    display: block;
+    margin: auto;
+    margin-top: 10px;
+    margin-right: 0;
+}
+
+.comment-list-container {
+    margin-top: 4px;
+    background-color: #fcfcfc;
+}
+
+.comment-list__cmt {
+    padding: 6px 4px;
+    color: #6e6e6e;
+}
+.comment-list__cmt:not(:first-child) {
+    border-top: 1px solid rgba(0,0,0,0.05);
+}
+/* Detail E */
+
 /* Custom E */

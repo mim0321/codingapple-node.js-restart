@@ -36,6 +36,28 @@
         </div>
     </div>
 
+    <!-- Comment container // 댓글 영역 -->
+    <div class="comment-container container">
+        <div class="row">
+            <span>작성자 : <%= commentUser %></span>
+            <form action="comment/<%= result._id %>" method="post">
+                <textarea name="commentText" id="comment__textarea" placeholder="댓글을 작성하시오."></textarea>
+                <button id="comment__submit" type="submit">작성하기</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- db에 댓글이 있으면 보여주기 -->
+    <% for (let i = 0; i < commentList.length; i++) { %>
+    <div class="comment-list-container container">
+        <div class="row">
+            <div class="comment-list__cmt">
+                <p><%= commentList[i].username %> : <%= commentList[i].commentText %></p>
+            </div>
+        </div>
+    </div>
+    <% } %>
+
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js' integrity='sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==' crossorigin='anonymous'></script>
     <script>
         $('.nav__menu-list').removeClass('active');

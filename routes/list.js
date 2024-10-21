@@ -68,6 +68,7 @@ connectDB.then((client)=>{
   console.log(err)
 })
 
+// list GET 요청(리스트)
 router.get('/list/page/:page', async (req, res) => {
   try {
       const page = (req.params.page - 1) * 5;
@@ -80,16 +81,19 @@ router.get('/list/page/:page', async (req, res) => {
   }
 })
 
+// detail GET 요청(디테일)
 router.get('/list/detail/:id', async (req, res) => {
   try {
     const result = await db.collection('post').findOne({_id : new ObjectId(req.params.id)});
-    res.render('detail.ejs', {result : result})
+    const commentList = await db.collection('comment').find({ postId : new ObjectId(req.params.id)}).toArray();
+    res.render('detail.ejs', { result : result, commentList : commentList, commentUser : req.user.username })
   } catch(err){
       console.log(err);
       res.status(500).send('Server Error')
   }
 })
 
+// 글작성 GET 요청 (write)
 router.get('/list/write', async (req, res) => {
   try {
     if(req.user){
@@ -103,6 +107,7 @@ router.get('/list/write', async (req, res) => {
   }
 })
 
+// 글작성 POST 요청 (write)
 router.post('/list/write', async (req, res) => {
   try {
     if (req.body.title == '' || req.body.content == ''){
@@ -122,6 +127,7 @@ router.post('/list/write', async (req, res) => {
   }
 })
 
+// 글 수정 GET 요청(edit)
 router.get('/list/edit/:id', async (req,res) => {
   try {
     const result = await db.collection('post').findOne({
@@ -139,6 +145,7 @@ router.get('/list/edit/:id', async (req,res) => {
   }
 })
 
+// 글 수정 PUT 요청(edit)
 router.put('/list/edit/:id', async (req, res) => {
   // method-override npm설치 후 API put으로 변경하기!
   // form태그의 url 맨 뒤에 ?_method=put 으로 변경해야함(API 확실히 구분 하려고 씀)
@@ -158,12 +165,14 @@ router.put('/list/edit/:id', async (req, res) => {
   }
 })
 
+// 글 삭제 DELETE 요청 (delete)
 router.delete('/post_delete', async (req, res)=>{
   try {
     await db.collection('post').deleteOne({
       _id : new ObjectId(req.query.id),
       user : new ObjectId(req.user._id),
     })
+    await db.collection('comment').deleteMany({ postId : new ObjectId(req.query.id) });
     res.status(200).send('Delete complete');
   } catch(err){
     console.log(err);
@@ -171,6 +180,7 @@ router.delete('/post_delete', async (req, res)=>{
   }
 })
 
+// 글 검색 GET 요청(search)
 router.get('/list/page/:page/search', async (req, res)=>{
   try {
     let search = [
@@ -187,6 +197,22 @@ router.get('/list/page/:page/search', async (req, res)=>{
   } catch(err){
     console.log(err);
     res.status(500).send('Server Error')
+  }
+})
+
+//  댓글 기능 POST 요청(comment)
+ router.post('/list/detail/comment/:id', async (req, res) => {
+  try {
+    await db.collection('comment').insertOne({
+      postId : new ObjectId(req.params.id),
+      user : new ObjectId(req.user._id),
+      username : req.user.username,
+      commentText : req.body.commentText,
+    })
+    res.redirect('/list/detail/' + req.params.id)
+  } catch(err){
+      console.log(err);
+      res.status(500).send('Server Error')
   }
 })
 
