@@ -70,10 +70,10 @@ connectDB.then((client)=>{
 
 router.get('/list/page/:page', async (req, res) => {
   try {
-    const page = (req.params.page - 1) * 5;
-    const pageNum = await db.collection('post').find().toArray();
-    const result = await db.collection('post').find().skip(page).limit(5).toArray();
-    res.render('list.ejs', {result : result, pageNum : pageNum})
+      const page = (req.params.page - 1) * 5;
+      const pageNum = await db.collection('post').find().toArray();
+      const result = await db.collection('post').find().skip(page).limit(5).toArray();
+      res.render('list.ejs', {result : result, pageNum : pageNum})
   } catch(err){
       console.log(err);
       res.status(500).send('Server Error')
@@ -108,7 +108,12 @@ router.post('/list/write', async (req, res) => {
     if (req.body.title == '' || req.body.content == ''){
       res.send('제목 또는 내용을 작성해주세요')
     } else {
-      await db.collection('post').insertOne({title : req.body.title, content: req.body.content, username: req.query.username})
+      await db.collection('post').insertOne({
+        title : req.body.title,
+        content: req.body.content,
+        user: req.user._id,
+        username: req.user.username,
+      })
       res.redirect('/list/page/1')
     }
   } catch(err){
@@ -119,8 +124,15 @@ router.post('/list/write', async (req, res) => {
 
 router.get('/list/edit/:id', async (req,res) => {
   try {
-    const result = await db.collection('post').findOne({ _id : new ObjectId(req.params.id) })
-    res.render('edit.ejs', { result : result })
+    const result = await db.collection('post').findOne({
+      _id : new ObjectId(req.params.id),
+      user : new ObjectId(req.user._id)
+    })
+    if(!result){
+      res.redirect('/list/page/1')
+    } else{
+      res.render('edit.ejs', { result : result })
+    }
   } catch(err){
     console.log(err);
     res.status(500).send('Server Error')
@@ -148,7 +160,10 @@ router.put('/list/edit/:id', async (req, res) => {
 
 router.delete('/post_delete', async (req, res)=>{
   try {
-    await db.collection('post').deleteOne({ _id : new ObjectId(req.query.id) })
+    await db.collection('post').deleteOne({
+      _id : new ObjectId(req.query.id),
+      user : new ObjectId(req.user._id),
+    })
     res.status(200).send('Delete complete');
   } catch(err){
     console.log(err);

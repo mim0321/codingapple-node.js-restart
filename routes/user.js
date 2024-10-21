@@ -74,7 +74,7 @@ router.get('/user/login', async (req, res)=>{
             console.log('Not login')
             res.render('user-login.ejs')
         } else{
-            console.log('Status Signin')
+            console.log(req.user)
             res.render('user-profile.ejs', {result : req.user})
         }
     } catch(err){
