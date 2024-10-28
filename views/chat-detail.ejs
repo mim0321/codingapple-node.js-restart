@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap-grid.css' integrity='sha512-hhSu9overYjKfSjPCtJW3688VHkfBh+W1pR5Mysll91bOJwGjYntytGTtVXb2aisFOaYXXDrO38NKXDRPJWu7A==' crossorigin='anonymous'/>
+    <link rel="stylesheet" href="/normalize.css">
+    <link rel="stylesheet" href="/main.css">
+    <title>Mim Forum chat detail</title>
+</head>
+<body>
+    <%- include('nav.ejs') %>
+
+    <div class="post-container container">
+        <div class="row">
+            <div class="post__box col-12 default-mt flex">
+                <div class="post__left">
+                    <span>작성자와의 대화</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- db에 댓글이 있으면 보여주기 -->
+        <div class="comment-list-container container">
+            <div class="row">
+                <div class="comment-list__cmt">
+                    <p>닉네임1 : 작성자 텍스트</p>
+                    <p>닉네임2 : 구매자 텍스트</p>
+                </div>
+            </div>
+        </div>
+        
+    <!-- Comment container // 댓글 영역 -->
+    <div class="comment-container container">
+        <div class="row">
+            <form action="#" method="post">
+                <textarea name="chatText" id="comment__textarea" placeholder="채팅하기"></textarea>
+                <button id="comment__submit" type="submit">전송하기</button>
+            </form>
+        </div>
+    </div>
+        
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js' integrity='sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==' crossorigin='anonymous'></script>
+    <script>
+        $('.nav__menu-list').removeClass('active');
+        $('.nav__menu-list:nth-child(4)').addClass('active');
+    </script>
+</body>
+</html>

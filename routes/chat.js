@@ -1,23 +1,20 @@
 const express = require('express')
-const cors = require('cors')
-const app = express()
+const router = express.Router()
+const { ObjectId } = require('mongodb')
 const methodOverride = require('method-override')
 const session = require('express-session')
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const bcrypt = require('bcrypt')
 const MongoStore = require('connect-mongo')
+const cors = require('cors');
 
-require('dotenv').config()
-
-app.use(cors());
-app.use(methodOverride('_method'))
-app.use(express.static(__dirname + '/public'))
-app.use('/', require('./routes/list.js'))
-app.use('/', require('./routes/user.js'))
-app.use('/', require('./routes/chat.js'))
-app.use(passport.initialize())
-app.use(session({
+router.use(cors())
+router.use(methodOverride('_method'))
+router.use(express.json())
+router.use(express.urlencoded({extended: true}))
+router.use(passport.initialize())
+router.use(session({
   secret: process.env.PASSPORT_Secret,
   resave : true,
   saveUninitialized : false,
@@ -29,7 +26,7 @@ app.use(session({
     autoRemove: 'native',
   })
 }))
-app.use(passport.session())
+router.use(passport.session())
 passport.use(new LocalStrategy(async (username, password, cb) => {
     try {
         let result = await db.collection('user').findOne({ username : username})
@@ -61,24 +58,52 @@ passport.use(new LocalStrategy(async (username, password, cb) => {
         done(null, result)
     })
   })
-  
-app.set("view engine", "ejs")
 
-let connectDB = require('./database.js')
+let connectDB = require('./../database.js')
 
 let db
 connectDB.then((client)=>{
   db = client.db('forum')
-  app.listen(process.env.port, () => console.log('http://localhost:' + process.env.port + ' 서버실행'));
 }).catch((err)=>{
   console.log(err)
 })
 
-app.get('/', (req, res) => {
-    try {
-        res.render('index.ejs')
-    } catch(err){
-        console.log(err);
-        res.status(500).send('Server Error')
-    }
+// API List
+
+router.get('/chat/list', async (req, res)=>{
+  try {
+    const result = await db.collection('chatroom').find({
+      member : req.user._id,
+    }).toArray()
+    res.render('chat-list.ejs', {result : result})
+  } catch(err){
+      console.log(err)
+      res.status(500).send('Server error')
+  }
 })
+
+router.get('/chat/request', async (req, res)=>{
+  try {
+    await db.collection('chatroom').insertOne({
+      // member 0:유저아이디, 1:작성자아이디
+      member : [req.user._id, new ObjectId(req.query.writerId)],
+      date : new Date(),
+    })
+    res.redirect('/chat/list')
+  } catch(err){
+      console.log(err)
+      res.status(500).send('Server error')
+  }
+})
+
+router.get('/chat/detail/:id', async (req, res)=>{
+  try {
+    const result = await db.collection('chatroom').findOne({_id : new ObjectId(req.params.id)})
+    res.render('chat-detail.ejs', {result : result})
+  } catch(err){
+      console.log(err)
+      res.status(500).send('Server error')
+  }
+})
+
+module.exports = router
