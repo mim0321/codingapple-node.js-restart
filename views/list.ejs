@@ -89,5 +89,36 @@
             $('.pagenation-box').append(pageNumElement)
         }
     </script>
+
+
+    <script>
+        let eventSource = new EventSource('/stream/list')
+        eventSource.addEventListener('post', function(e){
+            
+            let eData = JSON.parse(e.data)
+
+            $('.post-container > row').append(`
+            <div class="post__box col-12 default-mt flex">
+                <div class="post__left">
+                    <div class="post__title">
+                        <a href="/list/detail/${eData._id}" method="get">
+                            ${eData.title}
+                        </a>
+                    </div>
+                </div>
+                <div class="post__right flex">
+                    <div class="post__ico-box flex edit-btn">
+                        <a href="/list/edit/${eData._id} %>">
+                            <i class="fa-solid fa-pencil"></i>
+                        </a>
+                    </div>
+                    <div class="post__ico-box flex delete-btn" data-id="${eData._id}">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </div>
+                </div>
+            </div>
+            `)
+        })
+    </script>
 </body>
 </html>

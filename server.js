@@ -153,3 +153,28 @@ io.on('connection', (socket) => {
     io.to(data.room).emit('message-broadcast', data.msg)
   })
 })
+
+/** Server sent events(SSE) API */
+app.get('/stream/list', async (req,res)=>{
+  try {
+    res.writeHead(200, {
+      "Connection": "keep-alive",
+      "Content-Type": "text/event-stream",
+      "Cache-Control": "no-cache",
+    })
+
+    let 조건 = [
+      { $match : { operationType : 'insert' } }
+    ]
+
+    let changeStream = db.collection('post').watch(조건)
+    changeStream.on('change', (result)=>{
+      res.write('event: post\n')
+      res.write(`data: ${JSON.stringify(result.fullDocument)}\n\n`)
+    })
+
+  } catch(err){
+      console.log(err)
+      res.status(500).send('Server error')
+  }
+})
