@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap-grid.css' integrity='sha512-hhSu9overYjKfSjPCtJW3688VHkfBh+W1pR5Mysll91bOJwGjYntytGTtVXb2aisFOaYXXDrO38NKXDRPJWu7A==' crossorigin='anonymous'/>
+    <link rel="stylesheet" href="/normalize.css">
+    <link rel="stylesheet" href="/main.css">
+    <title>Mim Forum chat detail</title>
+</head>
+<body>
+    <%- include('nav.ejs') %>
+
+    <div class="detail-bg">
+        <div class="chat-screen">
+          <div class="chat-box"><span>안녕하세요</span></div>
+          <div class="chat-box"><span>안녕하세요</span></div>
+          <div class="chat-box mine"><span>안녕하세요</span></div>
+        </div>
+      </div>
+      <div class="chat-form">
+        <input class="chat-input">
+        <button class="chat-button">전송</button>
+  </div>
+
+  <p><%= JSON.stringify(result) %></p>
+        
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js' integrity='sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==' crossorigin='anonymous'></script>
+    <script>
+        $('.nav__menu-list').removeClass('active');
+        $('.nav__menu-list:nth-child(4)').addClass('active');
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/socket.io@4.7.2/client-dist/socket.io.min.js"></script>
+    <script>
+        /** socket.io 사용 문법 */
+        const socket = io()
+
+        /** [유저 -> 서버] 데이터 전송할 때
+         * socket.emit('데이터이름', '보낼 데이터')
+        */
+        socket.emit('ask-join', '<%= result._id %>')
+
+        /** [서버 -> 모든유저] 데이터 받아올 때
+         * socket.on('데이터이름', (받은 데이터)=>{실행할 코드})
+        */
+        socket.on('name', (data)=>{
+            console.log('서버에서 데이터 받아옴. 데이터 : ', data)
+        })
+
+        /** 특정 룸에 메세지를 보내기 */
+        document.querySelector('.chat-button').addEventListener('click', function(){
+            let msg = document.querySelector('.chat-input').value
+            socket.emit('message-send', { msg : msg, room : '<%= result._id %>' })
+        })
+
+        /** 특정 룸에 보낸 메세지를 수신하기 */
+        socket.on('message-broadcast', (data)=>{
+            $('.chat-screen').append(`
+            <div class="chat-box mine"><span>${data}</span></div>
+            `)
+        })
+    </script>
+</body>
+</html>

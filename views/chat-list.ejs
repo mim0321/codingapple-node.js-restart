@@ -6,20 +6,30 @@
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap-grid.css' integrity='sha512-hhSu9overYjKfSjPCtJW3688VHkfBh+W1pR5Mysll91bOJwGjYntytGTtVXb2aisFOaYXXDrO38NKXDRPJWu7A==' crossorigin='anonymous'/>
     <link rel="stylesheet" href="/normalize.css">
     <link rel="stylesheet" href="/main.css">
-    <link rel="stylesheet" href="/user.css">
-    <title>User Profile</title>
+    <title>Mim Forum Chatting List</title>
 </head>
 <body>
     <%- include('nav.ejs') %>
 
-    <div class="profile-container container">
+    <div class="post-container container">
         <div class="row">
-            <div class="profile__box col-12 default-mt flex">
-                <div class="profile__title">[My Page]</div>
-                <div class="profile__username">Your ID : <%= result.username %></div>
-                <button class="chat-btn">Chatting List</button>
-                <button class="profile__logout">Log Out</button>
+            <% for(let i = 0; i < result.length; i++){ %>
+            <div class="post__box col-12 default-mt flex">
+                <div class="post__left">
+                    <!-- 작성자, 글제목, 글내용 -->
+                    <div class="post__title">
+                        <a href="/chat/detail/<%= result[i]._id %>" method="get">
+                            <span>채팅방 <%= i %></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="post__right flex">
+                    <div class="post__ico-box flex delete-btn" data-id="#">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </div>
+                </div>
             </div>
+            <% } %>
         </div>
     </div>
 
@@ -27,15 +37,6 @@
     <script>
         $('.nav__menu-list').removeClass('active');
         $('.nav__menu-list:nth-child(4)').addClass('active');
-
-        $('.profile__logout').click(()=>{
-            alert('로그아웃 되었습니다.')
-            location.href = '/user/logout'
-        })
-
-        $('.chat-btn').click(()=>{
-            window.location.href = '/chat/list'
-        })
     </script>
 </body>
 </html>
